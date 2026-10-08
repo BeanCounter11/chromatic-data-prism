@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output and caches
+dist/
+dist-ssr/
+build/
+.vite/
+*.tsbuildinfo
+coverage/
+
+# Environment variables and secrets — never commit these
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+secrets.*
+credentials.*
+.npmrc
+.snyk-auth*
+
+# Logs (may contain pasted data or personal information)
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Exported data, captures and screenshots that could contain personal data
+*.har
+exports/
+screenshots/
+
+# Personal audio used to test Audio Reactive Mode (voice recordings, music)
+recordings/
+test-audio/
+*.webm.rec
+
+# Editor and OS clutter
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
