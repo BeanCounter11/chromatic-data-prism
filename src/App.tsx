@@ -5,6 +5,7 @@ import { wavelengthBandName, wavelengthToHex } from './engine/spectrum'
 import { PrismScene } from './scene/PrismScene'
 import { ModeToggle } from './ui/ModeToggle'
 import { AudioToggle } from './ui/AudioToggle'
+import { AboutButton } from './ui/AboutModal'
 import { PresetBar } from './ui/PresetBar'
 import { InputPanel } from './ui/InputPanel'
 import { DiagnosticsPanel } from './ui/DiagnosticsPanel'
@@ -87,6 +88,7 @@ export default function App() {
             className={`flex items-center gap-2 ${art ? 'opacity-40 transition-opacity focus-within:opacity-100 hover:opacity-100' : ''}`}
           >
             {art && <BuildForJoyLink />}
+            <AboutButton />
             <AudioToggle />
             <ModeToggle />
           </div>
