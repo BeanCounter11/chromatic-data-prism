@@ -1,61 +1,44 @@
 # Chromatic Data Prism
 
-A single-page React app that turns data into light. Whatever you type, paste or stream is hashed in real time and converted into optical physics properties. Those properties drive a 3D glass prism that refracts, disperses and bounces a beam of white light.
+A [**#BuildForJoy**](https://buildforjoy.dev) hobby experiment: turn text, JSON logs, live streams and audio into light passing through a 3D glass prism.
+
+Part of [buildforjoy.dev](https://buildforjoy.dev) — non-commercial exploration for curiosity, learning and the joy of building. Not a product. Not a SaaS. Just something made for fun.
+
+[![Try the demo](https://img.shields.io/badge/Try_the_demo-buildforjoy-111?style=for-the-badge)](https://beancounter11.github.io/chromatic-data-prism/)
+[![Open Source](https://img.shields.io/badge/Open_Source-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/BeanCounter11/chromatic-data-prism)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
 
 ![Prism splitting light](public/prism.svg)
 
-## Features
+## Why I built this
 
-### 3D glass prism sculpture
-- A bevelled triangular glass prism rendered with `@react-three/fiber` and drei's `MeshTransmissionMaterial`, with real transmission, chromatic aberration and per-wavelength refraction.
-- **Physically traced light.** A white beam is traced through the prism's cross-section with Snell's law and a Cauchy dispersion model. Nine wavelengths are traced separately, so you see true splitting, total internal reflection and colour fans.
-- Animated procedural caustics on the floor and back wall, plus bloom, screen-space chromatic aberration and vignette post-processing.
-- Drag to orbit, scroll to zoom, right-drag to pan.
+I wanted to see what happens when you treat data as light — hashing characters into optical properties and watching a glass prism respond. The stack (React, Three.js / R3F, Web Audio, Tailwind) was a chance to practice real-time graphics, physical ray tracing and audio reactivity without shipping a product.
 
-### Data-to-Light Encoder engine
-Choose an input source:
-- **Text:** free typing. Every keystroke re-hashes the light.
-- **JSON Log:** paste a log line or object. Valid JSON is hashed in canonical (minified) form, so whitespace doesn't change the result.
-- **Live Pulse:** a synthetic stream of service logs. The rolling window is re-hashed on every event.
+**Lessons along the way**
+- A short hash can drive surprisingly rich visuals when each field maps to a real optical parameter.
+- Snell's law in a 2D prism cross-section is enough to sell "true" dispersion in 3D.
+- Browsers only start audio after a user gesture — that constraint shapes the whole Audio Reactive UX.
+- Relative asset bases and a repo-aware Vite `base` make GitHub Pages and forks share the same build.
 
-The input is hashed (a 64-bit cyrb53-style hash plus a character histogram) into:
+## What it explores
 
-| Property | Range | Drives |
-| --- | --- | --- |
-| Light angle | 12° – 72° | Angle of incidence of the white beam |
-| Wavelength | 380 – 750 nm | Dominant colour, beam emphasis, glass tint, caustic tint |
-| Refraction index | 1.33 (water) – 2.42 (diamond) | Glass IOR and ray bending |
-| Internal reflections | 0 – 12 | Forced bounces inside the prism before light may escape |
-| Dispersion | 0 – 1 | Red/violet separation, chromatic aberration strength |
+| Idea | How it shows up |
+| --- | --- |
+| Data → light | Text / JSON / Live Pulse hashed into angle, wavelength, IOR, reflections, dispersion |
+| Physical optics | Snell's-law ray tracer + Cauchy dispersion across nine wavelengths |
+| Transmission glass | drei `MeshTransmissionMaterial` with live chromatic aberration |
+| Sound → space | Bass / mids / treble drive pulse, IOR, caustics, camera shake |
+| Modes | Utility diagnostics vs Art / Ambient full-bleed caustics |
 
-Whitespace is hashed but adds no colour to the spectrum.
+## Try it
 
-### Modes
-- **Utility / Diagnostic:** shows the input panel and a metrics panel with the light-angle dial, wavelength swatch, refraction-index scale against real materials, internal reflection counter, a character spectrum chart, a per-wavelength ray-trace table (refractive index, deviation, bounces, trapped rays), signal history and a SHA-256 fingerprint.
-- **Art / Ambient:** hides the controls, expands caustics across the whole scene, boosts bloom and slowly auto-orbits the camera. Switching back glides the camera home.
-- Press **M** to toggle modes (when not typing).
+- **Live demo:** [beancounter11.github.io/chromatic-data-prism](https://beancounter11.github.io/chromatic-data-prism/)
+- **Hub:** [buildforjoy.dev](https://buildforjoy.dev)
+- **Source:** [github.com/BeanCounter11/chromatic-data-prism](https://github.com/BeanCounter11/chromatic-data-prism)
 
-### Audio Reactive Mode
-Click **Enable Audio Reactive Mode** in the header, then choose **Microphone** or **Audio file** (MP3, WAV, OGG, M4A, AAC, FLAC or Opus, up to 300 MB). The click also starts the browser's AudioContext, because browsers only allow audio to start after a user gesture.
+## Run locally
 
-`src/audio/audioPrismBridge.js` feeds the source into an `AnalyserNode` (2048-point FFT) and groups the frequencies into three bands. Each band is auto-gained to 0–1 with a fast-attack, slow-release envelope.
-
-| Band | Range | Drives |
-| --- | --- | --- |
-| Bass | 20–250 Hz | Prism pulse scale, core light beam intensity, bloom, kick-triggered glass distortion |
-| Mids | 250–4000 Hz | Refraction index (IOR) and chromatic dispersion split, in both the glass material and the ray tracer |
-| Treble | 4000 Hz+ | Camera shake, orbit rotation speed, and caustic glitter and light shafts |
-
-Audio modulates the data-encoded values on top. The metrics panel keeps showing the values encoded from your data. Microphone audio is only analysed and never played back, so there's no feedback. Uploaded files play through your speakers. Nothing is recorded or uploaded.
-
-### Presets
-- **Crypto Key Prism:** refracts a fresh 256-bit key from `crypto.getRandomValues`, with optional rotation every 4 seconds.
-- **Live CPU Temperature:** browsers can't read hardware sensors, so this *estimates* a temperature from main-thread load (frame pacing and timer drift). Cool readings render blue, hot ones red.
-- **Generative Rainbow Ambient:** a self-playing composition that drifts through the spectrum. It switches to Art mode automatically.
-
-## Getting started
-
-Requires Node.js 20.19+ (tested on Node 24).
+Requires Node.js 20.19+ (tested on Node 22/24).
 
 ```bash
 npm install
@@ -64,46 +47,52 @@ npm run build      # type-check + production build into dist/
 npm run preview    # serve the production build
 ```
 
-## Repository
+## Features (short)
 
-Hosted as a private GitHub repository: [BeanCounter11/chromatic-data-prism](https://github.com/BeanCounter11/chromatic-data-prism). Commits use the GitHub no-reply address (set in this repo's local git config), so no personal email appears in the history. Line endings are normalised to LF by `.gitattributes`.
+- **3D glass prism** — orbit / zoom / pan; transmission, dispersion, bloom, caustics.
+- **Data-to-Light Encoder** — Text, JSON Log, or Live Pulse → light angle, wavelength, refraction index, internal reflections, dispersion.
+- **Utility / Diagnostic** vs **Art / Ambient** (press **M** to toggle).
+- **Audio Reactive Mode** — mic or audio file; bass / mids / treble map to pulse, IOR/dispersion, camera & caustics.
+- **Presets** — Crypto Key Prism, Live CPU Temperature (estimated), Generative Rainbow Ambient.
+
+## Deploying (GitHub Pages)
+
+This repo includes a workflow that builds and deploys on every push to `main`.
+
+1. On GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. Push to `main` (or run **Actions → Deploy to GitHub Pages → Run workflow**).
+3. The site will be at `https://<user>.github.io/chromatic-data-prism/` (repo name is used as the Vite `base` automatically).
+
+Fork tip: rename the repo if you like — the workflow reads `GITHUB_REPOSITORY` so the base path follows your fork's name. For a custom path locally, set `VITE_BASE_PATH` (e.g. `/my-fork/`).
 
 ## Project structure
 
 ```
 src/
-  audio/
-    audioPrismBridge.js Web Audio bridge: mic/file input, FFT band analysis (JSDoc-typed, checked by tsc)
-  engine/
-    encoder.ts          hashing + optical profile derivation
-    raytrace.ts         2D Snell's-law ray tracer with Cauchy dispersion
-    spectrum.ts         wavelength ↔ colour helpers
-    liveSources.ts      pulse log generator, CPU estimator, crypto keys, SHA-256
-    useOpticsEngine.ts  runs live sources and keeps the optical profile in sync
-  scene/
-    PrismScene.tsx      canvas, environment, controls, post-processing, camera return
-    Prism.tsx           extruded glass prism with transmission material
-    LightBeams.tsx      beam rendering from the ray tracer (fixed GPU buffers)
-    CausticSurface.tsx  procedural caustic shader planes
-    animatedOptics.ts   per-frame eased optical values shared by the scene
-    audioReactive.ts    per-frame audio band levels + audio-modulated optics
-  ui/                   overlay panels, charts, mode toggle, preset bar, audio toggle
-  store.ts              zustand app state
+  audio/          Web Audio bridge (mic / file → FFT bands)
+  engine/         hashing, ray trace, spectrum, live sources
+  scene/          R3F canvas, prism, beams, caustics, audio reactivity
+  ui/             panels, charts, audio toggle, Build for Joy chrome
 ```
 
 ## Tech stack
-React 19, TypeScript, Vite 8, Tailwind CSS v4, Web Audio API, three.js, @react-three/fiber 9, @react-three/drei 10, @react-three/postprocessing 3, zustand 5.
 
-## Privacy and security
-- Everything runs locally in your browser. Nothing you type or paste is sent anywhere, and nothing is stored between visits.
-- Crypto keys come from the browser's cryptographically secure random generator and exist only in memory.
-- Microphone and audio-file sound is analysed in real time and never recorded, stored or uploaded. Turning audio off stops the microphone and releases the file from memory.
-- Still, avoid pasting real production secrets or personal data into any web tool.
-- When deploying, serve over HTTPS (needed for the SHA-256 fingerprint) and consider a Content-Security-Policy header such as `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; worker-src 'self' blob:`.
+React 19 · TypeScript · Vite 8 · Tailwind CSS v4 · Web Audio API · three.js · @react-three/fiber · drei · postprocessing · zustand
+
+## License & disclaimer
+
+Released under the [MIT License](./LICENSE).
+
+This app is a non-commercial hobby experiment provided **AS IS** without warranty of any kind, express or implied. Use at your own risk.
+
+Built under the **#BuildForJoy** ethos. Further details: [buildforjoy.dev](https://buildforjoy.dev).
+
+## Privacy note
+
+Everything runs in your browser. Typed input, crypto keys and audio analysis stay local — nothing is uploaded by this app. Still avoid pasting real secrets into any web tool.
 
 ## Known limitations
-- The diagnostics panel is shown on screens 1024px and wider. On smaller screens only the input panel and the 3D view are shown.
-- The CPU temperature is an estimate, not a real sensor reading.
-- The 3D view needs WebGL 2 and a reasonably capable GPU.
-- Microphone input needs HTTPS or localhost, and your permission.
-- With strong treble, the camera auto-orbits even in Utility / Diagnostic mode. Drag to take back control, or switch modes to glide back to the front view.
+
+- Diagnostics panel needs ~1024px+ width.
+- CPU temperature is estimated from main-thread load, not a hardware sensor.
+- Needs WebGL 2 and a capable GPU; mic needs HTTPS or localhost.

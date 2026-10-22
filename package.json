@@ -3,6 +3,25 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "description": "Turn text, JSON logs, live streams and audio into light refracting through a 3D glass prism. A #BuildForJoy hobby experiment.",
+  "license": "MIT",
+  "author": "BeanCounter11",
+  "homepage": "https://beancounter11.github.io/chromatic-data-prism/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeanCounter11/chromatic-data-prism.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BeanCounter11/chromatic-data-prism/issues"
+  },
+  "keywords": [
+    "buildforjoy",
+    "three.js",
+    "react-three-fiber",
+    "web-audio",
+    "data-visualization",
+    "open-source"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

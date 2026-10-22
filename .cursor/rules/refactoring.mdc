@@ -1,0 +1,34 @@
+---
+alwaysApply: true
+---
+# Repository Refactoring Rules: Joy of Building Pivot
+
+This repository is being refactored from a commercial product into an open-source, non-commercial hobby experiment celebrating pure building, learning, and creative exploration. 
+
+When generating, editing, or refactoring code in this repository, strictly adhere to the following rules:
+
+## 1. Remove All Commercial & Payment Mechanisms
+- **Delete Stripe / Payment Logic:** Remove all dependencies, SDKs, webhook handlers, and API integrations for payment processors (Stripe, RevenueCat, PayPal, Lemonsqueezy, etc.).
+- **Remove Paywalls & Gating:** Convert any gated, "Pro", or premium features into fully unlocked, free functionality.
+- **Clean UI Elements:** Remove pricing cards, subscription plans, upgrade prompts, "Buy Now" buttons, and checkout flows.
+- **Replace Monetization CTAs:** Replace former purchase links with:
+  - An "Open Source" link pointing to the GitHub repository.
+  - A "Play Demo" or "Try App" action button.
+
+## 2. Insert AS-IS Disclaimers & Legal Notice
+- **Footer Disclaimer:** Ensure every page layout includes an "As-Is" legal disclaimer in the footer or modal:
+  > *"This app is a non-commercial hobby experiment provided 'AS IS' without warranty of any kind, express or implied. Use at your own risk."*
+- **Infinite Scroll / UI Well-being (if applicable):** If the application features continuous feed mechanics, include:
+  > *"Built for fun and curiosity. Take regular breaks and enjoy building!"*
+
+## 3. Licensing & Open Source Artifacts
+- **MIT License:** Ensure a standard `LICENSE` file (MIT License) exists at the root of the repository. Include the default non-warranty clause: *"THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND..."*
+- **README Refactoring:** Update `README.md` to explain:
+  - What concept or tech stack was explored during this build.
+  - Key lessons learned and "Why I Built This".
+  - How to run the app locally (`npm run dev` / setup steps).
+  - Explicit mention that this is part of #BuildForJoy / non-commercial exploration.
+
+## 4. Code Quality & Maintenance
+- Do not introduce new serverless backend overhead or complex database calls unless required for local execution.
+- Maintain existing visual styles, micro-animations, and UI components while stripping commercial copy.

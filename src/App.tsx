@@ -8,6 +8,9 @@ import { AudioToggle } from './ui/AudioToggle'
 import { PresetBar } from './ui/PresetBar'
 import { InputPanel } from './ui/InputPanel'
 import { DiagnosticsPanel } from './ui/DiagnosticsPanel'
+import { BuildForJoyLink, LegalFooter } from './ui/SiteChrome'
+
+const prismIcon = `${import.meta.env.BASE_URL}prism.svg`
 
 function useModeShortcut() {
   const toggleMode = usePrism((s) => s.toggleMode)
@@ -26,7 +29,7 @@ function useModeShortcut() {
 function Brand({ compact }: { compact: boolean }) {
   return (
     <div className="flex items-center gap-3">
-      <img src="/prism.svg" alt="" className="h-8 w-8 rounded-lg" />
+      <img src={prismIcon} alt="" className="h-8 w-8 rounded-lg" />
       <div className={compact ? 'hidden' : ''}>
         <h1 className="text-sm font-semibold tracking-wide text-white">
           Chromatic <span className="spectrum-text">Data Prism</span>
@@ -73,8 +76,9 @@ export default function App() {
 
       <div className="pointer-events-none absolute inset-0 flex flex-col gap-3 p-3 sm:p-4">
         <header className="relative z-30 flex flex-wrap items-center justify-between gap-3">
-          <div className={fade(!art)}>
+          <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${fade(!art)}`}>
             <Brand compact={false} />
+            <BuildForJoyLink />
           </div>
           <div className={`order-3 w-full lg:order-none lg:w-auto ${fade(!art)}`}>
             <PresetBar />
@@ -82,6 +86,7 @@ export default function App() {
           <div
             className={`flex items-center gap-2 ${art ? 'opacity-40 transition-opacity focus-within:opacity-100 hover:opacity-100' : ''}`}
           >
+            {art && <BuildForJoyLink />}
             <AudioToggle />
             <ModeToggle />
           </div>
@@ -98,18 +103,16 @@ export default function App() {
           </div>
         </div>
 
-        <footer className="flex items-center justify-center">
+        <div className="relative z-20 flex flex-col items-center gap-2 pb-1">
           <div className={fade(art)}>
             <ArtCaption />
           </div>
-        </footer>
+          <p className={`hidden text-[10px] text-white/25 md:block ${fade(!art)}`}>
+            Drag to orbit · scroll to zoom · right-drag to pan · M toggles mode
+          </p>
+          <LegalFooter dimmed={art} />
+        </div>
       </div>
-
-      <p
-        className={`pointer-events-none absolute bottom-3 left-4 hidden text-[10px] text-white/25 md:block ${fade(!art)}`}
-      >
-        Drag to orbit · scroll to zoom · right-drag to pan · M toggles mode
-      </p>
     </main>
   )
 }

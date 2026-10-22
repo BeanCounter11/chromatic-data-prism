@@ -10,6 +10,7 @@ build/
 .vite/
 *.tsbuildinfo
 coverage/
+BUILDLOG.md
 
 # Environment variables and secrets — never commit these
 .env
@@ -48,6 +49,12 @@ screenshots/
 recordings/
 test-audio/
 *.webm.rec
+
+# Local Cursor / agent tooling (repo-specific identity rules stay private)
+.cursor/hooks/
+.cursor/hooks.json
+.cursor/rules/personal-data-protection.mdc
+.githooks/
 
 # Editor and OS clutter
 .vscode/*
